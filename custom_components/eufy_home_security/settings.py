@@ -226,7 +226,10 @@ def setting_platform(setting: Setting) -> Platform | None:
         return None
     if setting.writable and setting.control is not None:
         return _CONTROLS[setting.control]
-    if not setting.readable or setting.role is SettingRole.DIAGNOSTIC:
+        if setting.readable and setting.key == "device_indoor_temperature":
+        # Expose the camera report for testing before assigning a unit.
+        return Platform.SENSOR
+if not setting.readable or setting.role is SettingRole.DIAGNOSTIC:
         return None
     if setting.kind is SettingKind.BOOL:
         return Platform.BINARY_SENSOR
